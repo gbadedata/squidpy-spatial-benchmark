@@ -1,0 +1,28 @@
+[project]
+name = "squidpy-spatial-benchmark"
+version = "1.0.0"
+description = "Spatial transcriptomics analysis with squidpy and topological data analysis with gudhi"
+requires-python = ">=3.10"
+
+[tool.ruff]
+line-length = 99
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["src", "config"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=src --cov-report=term-missing -v"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::FutureWarning",
+    "ignore::UserWarning",
+]
+
+[tool.coverage.run]
+omit = ["*/tests/*", "*/__init__.py"]
