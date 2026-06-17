@@ -11,3 +11,4 @@ evidence/figures/*.png
 !evidence/figures/.gitkeep
 .env
 .DS_Store
+data/anndata/
