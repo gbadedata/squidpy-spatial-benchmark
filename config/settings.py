@@ -25,7 +25,8 @@ class PipelineSettings(BaseSettings):
 
     # ── Spatial graph ──────────────────────────────────────────────────
     n_rings: int = 1          # rings of neighbours for Visium hexagonal grid
-    coord_type: str = "visium"  # use Visium-specific hex grid topology
+    # squidpy 1.8.x uses 'grid' (not 'visium') for regular array layouts
+    coord_type: str = "grid"
 
     # ── Preprocessing ──────────────────────────────────────────────────
     n_top_genes: int = 3000   # highly variable genes for clustering
