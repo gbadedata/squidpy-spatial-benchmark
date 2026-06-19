@@ -130,6 +130,17 @@ def _expression_to_point_cloud(
 
     coords = adata.obsm["spatial"][mask].astype(float)
 
+    # Subsample dense point clouds to bound Rips complex memory.
+    # The number of simplices in a Vietoris-Rips complex grows roughly
+    # cubically with point count; a gene expressed in 800+ spots can
+    # generate tens of millions of simplices and exhaust memory. Random
+    # subsampling preserves the topological signal (connected components
+    # and loops) while keeping the complex tractable.
+    if len(coords) > settings.max_tda_points:
+        rng = np.random.default_rng(settings.random_seed)
+        idx = rng.choice(len(coords), settings.max_tda_points, replace=False)
+        coords = coords[idx]
+
     # Normalise spatial coordinates to [0, 1] range
     if len(coords) > 0:
         coords = coords - coords.min(axis=0)

@@ -41,13 +41,20 @@ class PipelineSettings(BaseSettings):
     morans_i_threshold: float = 0.1
 
     # ── TDA (topological data analysis) ────────────────────────────────
-    # Maximum edge length for Rips complex filtration
-    # Set relative to typical inter-spot distance in Visium (~100 microns)
-    rips_max_edge_length: float = 3.0   # in normalised spatial coordinates
-    # Minimum persistence to retain a topological feature (noise filter)
-    min_persistence: float = 0.1
+    # Maximum edge length for Rips complex filtration. Point clouds are
+    # normalised to the unit square, where max pairwise distance is ~1.13,
+    # so 1.5 captures the full filtration without wasted computation.
+    rips_max_edge_length: float = 1.5
+    # Minimum persistence to retain a topological feature (noise filter).
+    # Set to 0.01 because real spatial loops in normalised Visium point
+    # clouds are short-lived (persistence 0.01-0.1 band); a 0.1 threshold
+    # discards all genuine H1 features and collapses entropy to zero.
+    min_persistence: float = 0.01
     # Number of top genes per category for TDA comparison
     n_tda_genes: int = 20
+    # Maximum points in a TDA point cloud (subsample above this to bound
+    # Rips complex memory -- simplex count grows ~cubically with points)
+    max_tda_points: int = 250
 
     # ── Oracle: Allen Brain Atlas cortical layer markers ───────────────
     # Published layer-specific markers for mouse brain cortex
