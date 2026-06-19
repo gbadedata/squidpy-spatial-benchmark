@@ -31,6 +31,7 @@ from src.neighbourhood import run_neighbourhood_analysis
 from src.preprocessing import run_preprocessing
 from src.svg_detection import run_svg_detection
 from src.tda import run_tda_analysis
+from src.visualization import generate_all_figures
 
 # Structured logging: JSON events to stdout
 structlog.configure(
@@ -99,6 +100,23 @@ def run_pipeline(data_path: str | None = None) -> dict:
         n_genes_analysed=tda_result.n_genes_analysed,
         n_tda_unique=len(tda_result.tda_unique_genes),
     )
+
+    # ── Phase 7: Generate figures ──────────────────────────────────────
+    most_divergent = None
+    if len(tda_result.comparison_df):
+        most_divergent = str(tda_result.comparison_df["rank_diff"].idxmax())
+    tda_gene = most_divergent or svg_result.top_svgs[0]
+    try:
+        figures = generate_all_figures(
+            adata,
+            enrichment_df=nhood_result.enrichment_scores,
+            comparison_df=tda_result.comparison_df,
+            top_svgs=svg_result.top_svgs[:4],
+            tda_gene=tda_gene,
+        )
+        log.info("phase7_complete", n_figures=len(figures))
+    except Exception as exc:  # figures are evidence, not core; never fail run
+        log.warning("figure_generation_failed", error=str(exc))
 
     # ── Phase 6: Build and write report ────────────────────────────────
     report = build_report(
