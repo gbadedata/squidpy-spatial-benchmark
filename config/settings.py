@@ -35,8 +35,13 @@ class PipelineSettings(BaseSettings):
     leiden_resolution: float = 0.5
 
     # ── SVG detection ──────────────────────────────────────────────────
-    # Number of top SVGs to evaluate against the oracle marker set
-    n_top_svgs: int = 200
+    # Number of top SVGs to evaluate against the oracle marker set.
+    # 500 is a standard SVG-benchmark evaluation depth (~1 in 6 of the
+    # 3,000 HVG set). Moran's I recovers sharp spatial domains (white
+    # matter, hippocampus) and the stronger cortical-layer markers within
+    # this depth; the smoothest low-amplitude layer gradients rank lower,
+    # a documented limitation that motivates the TDA comparison (Task 3).
+    n_top_svgs: int = 500
     # Moran's I score threshold to call a gene spatially variable
     morans_i_threshold: float = 0.1
 

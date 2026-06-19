@@ -1,0 +1,66 @@
+{
+  "dataset": "V1 Adult Mouse Brain (10x Genomics Visium)",
+  "n_spots": 2688,
+  "n_genes": 16957,
+  "n_clusters": 15,
+  "n_tasks_passed": 3,
+  "n_tasks_total": 3,
+  "tasks": [
+    {
+      "name": "svg_detection",
+      "passed": true,
+      "score": 0.4118,
+      "threshold": 0.3,
+      "details": {
+        "n_genes_tested": 3000,
+        "n_svgs_called": 1411,
+        "n_oracle_markers_tested": 17,
+        "n_oracle_markers_found": 7,
+        "markers_found": [
+          "Calb1",
+          "Fezf2",
+          "Mbp",
+          "Mog",
+          "Plp1",
+          "Dkk3",
+          "C1ql2"
+        ],
+        "top_svg": "Mbp"
+      }
+    },
+    {
+      "name": "neighbourhood_enrichment",
+      "passed": true,
+      "score": 1.0,
+      "threshold": 0.6,
+      "details": {
+        "n_clusters": 15,
+        "n_pairs_validated": 5,
+        "n_pairs_passing": 5,
+        "validated_pairs": {
+          "Hippocampus+Pyramidal_layer": true,
+          "Hippocampus+Pyramidal_layer_dentate_gyrus": true,
+          "Cortex_4+Cortex_5": true,
+          "Lateral_ventricle+Striatum": true,
+          "Fiber_tract+Lateral_ventricle": true
+        }
+      }
+    },
+    {
+      "name": "tda_vs_morans",
+      "passed": true,
+      "score": 9.0,
+      "threshold": 4.5,
+      "details": {
+        "n_genes_analysed": 18,
+        "n_tda_unique_genes": 3,
+        "tda_unique_genes": [
+          "Gpr17",
+          "Apbb2",
+          "Slc29a3"
+        ],
+        "most_divergent_gene": "Apbb2"
+      }
+    }
+  ]
+}
